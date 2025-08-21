@@ -48,7 +48,7 @@ const Temperature = () => {
         </div>
       </div>
       <p>
-        Humidity: {humidity}% Wind:{wind}km/h;
+        Humidity: {humidity}% Wind: {wind}km/h;
       </p>
       <div className="nature">
         <span>NEAR TO NATURE</span>

@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
                 <Image src={`${nextConfig.env?.IMAGE}/iiitt-logo.png`} alt="IIITT Logo" priority width={40} height={80} />
               </div>
               <h2>Indian Institute Of Information Technology</h2>
-              <h3> Sethurapatti ,Trichy-Madurai Highway,Tiruchirappalli,Tamil Nadu-620012</h3>
+              <h3> Sethurapatti, Trichy-Madurai Highway, Tiruchirappalli, Tamil Nadu-620012</h3>
               <a href="mailto:office@iiitt.ac.in">
                 <MailIcon className="mailicon" />
                 office@iiitt.ac.in

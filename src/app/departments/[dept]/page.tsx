@@ -3,7 +3,7 @@
 import EmptyNotice from "@/components/EmptySection/EmptyNotice";
 import InfoSection from "@/components/InfoSection/InfoSection";
 import PersonCard from "@/components/PersonCard/PersonCard";
-import { Department } from "@/types/Department.types";
+import { Department, DepartmentsData } from "@/types/Department.types";
 import { validURL } from "@/types/validator";
 import { Box, Skeleton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -15,6 +15,7 @@ import styles from "./department.module.css";
 const Cse: React.FC = () => {
   const params = useParams();
   const dept = params?.dept as string;
+  const [depts, setDepts] = useState<DepartmentsData[] | null>(null);
   const [cseData, setCseData] = useState<Department | null>(null);
 
   useEffect(() => {
@@ -23,6 +24,22 @@ const Cse: React.FC = () => {
       document.title = "IIIT Trichy";
     };
   }, [dept]);
+
+  useEffect(() => {
+    fetch("/json/departments/departments.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch departments data");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setDepts(data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching department data:", error);
+      });
+  }, []);
 
   useEffect(() => {
     fetch(`/json/departments/${dept}.json`)
@@ -38,9 +55,55 @@ const Cse: React.FC = () => {
 
   return (
     <div>
-      <Grid container spacing={2} className={styles.departmentContainer}>
-        <Grid  size={{xs:12 ,sm:1}} />
-        <Grid  size={{xs:12 ,sm:10 }}>
+      <Grid container spacing={3} className={styles.departmentContainer}>
+        <Grid size={{ xs: 12, sm: 0.5 }} />
+        {/* <Grid size={{ xs: 12, sm: 2 }} padding={"0 10px"}>
+          <Typography variant="h6" paddingTop="15px"></Typography>
+          <hr />
+          <ul>
+            <div>
+              <a href="">About</a>
+            </div>
+            <div>
+              <a href="">Faculty Members</a>
+            </div>
+            <div>
+              <a href="">Research Scholars</a>
+            </div>
+            <div>
+              <a href="">Research Areas</a>
+            </div>
+            <div>
+              <a href="">Announcements</a>
+            </div>
+            <div>
+              <a href="">Latest News</a>
+            </div>
+            <div>
+              <a href="">Contact Us</a>
+            </div>
+          </ul>
+        </Grid> */}
+        <Grid size={{ xs: 12, sm: 2 }}>
+          <Typography variant="h6">DEPARTMENTS</Typography>
+          <hr />
+          {depts?.map((dept, index) => (
+            <div key={index}>
+              <Typography>
+                <a
+                  href={`/departments/${dept.url}`}
+                  style={{
+                    color: "#000",
+                    textDecoration: "none",
+                  }}
+                >
+                  {dept.name.slice(14)}
+                </a>
+              </Typography>
+            </div>
+          ))}
+        </Grid>
+        <Grid size={{ xs: 12, sm: 8.5 }}>
           <Typography
             variant="h2"
             component="h2"
@@ -91,7 +154,7 @@ const Cse: React.FC = () => {
                 cseData.faculty_members.length > 0 ? (
                   <Grid container spacing={2}>
                     {cseData.faculty_members.map((faculty, index) => (
-                      <Grid  size={{xs:12 ,sm:6 ,md:4}}  key={index}>
+                      <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                         <Box>
                           <Typography>{faculty.name}</Typography>
                           <Typography variant="caption" color="text.secondary">
@@ -239,7 +302,7 @@ const Cse: React.FC = () => {
             ))
           )}
         </Grid>
-        <Grid  size={{xs:12 ,sm:1}} />
+        <Grid size={{ xs: 12, sm: 1 }} />
       </Grid>
     </div>
   );

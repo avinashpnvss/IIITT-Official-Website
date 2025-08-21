@@ -10,11 +10,6 @@ import LanguageIcon from "@mui/icons-material/Language";
 import SchoolIcon from "@mui/icons-material/School";
 import { validURL } from "@/types/validator";
 
-
-
-
-
-
 interface PersonCardProps {
   isHOD?: boolean;
   name: string;
